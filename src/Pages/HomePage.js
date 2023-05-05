@@ -24,7 +24,17 @@ const HomePage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="p-3 d-flex flex-column ">
+      <div
+        className="p-1 fs-1 rounded d-flex justify-content-center
+         align-items-center text-white font-semibold"
+        style={{
+          backgroundColor: "rgb(25, 106, 110)",
+          fontFamily: "cursive",
+        }}
+      >
+        ShowTanyy
+      </div>
       <div className="row">
         {dataLoaded ? (
           renderList()

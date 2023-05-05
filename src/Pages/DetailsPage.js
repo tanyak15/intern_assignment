@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { getShowData } from "../api/shows";
 import { formatSummary } from "../utils/formatSummary";
 import moment from "moment";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DetailsPage = () => {
   const { id } = useParams();
@@ -14,7 +16,6 @@ const DetailsPage = () => {
     data.genres = data.genres.join(",");
     setDetails(data);
     setDataLoaded(true);
-    console.log("\x1b[36m", "👍👍👍", data);
   };
 
   const ref = useRef(null);
@@ -29,13 +30,14 @@ const DetailsPage = () => {
   );
 
   const handelChange = (e) => {
-    console.log("\x1b[35m", "👉👉👉 state :", state);
     setstate({ ...state, [e.target.name]: e.target.value });
   };
 
   const saveChanges = (e) => {
     localStorage.setItem("user-details", JSON.stringify(state));
     closeref.current.click();
+    setstate({ tickets: "", name: "", email: "" });
+    toast("Tickets booked successfully..🎉🎊");
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const DetailsPage = () => {
     return (
       <>
         <div
-          className="modal fade"
+          className="modal fade "
           id="exampleModal"
           tabIndex="-1"
           aria-labelledby="exampleModalLabel"
@@ -54,8 +56,11 @@ const DetailsPage = () => {
         >
           <div className="modal-dialog">
             <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
+              <div
+                className="modal-header"
+                style={{ backgroundColor: "rgb(17, 104, 109)" }}
+              >
+                <h5 className="modal-title text-white" id="exampleModalLabel">
                   {details.name} 🎫
                 </h5>
                 <button
@@ -129,14 +134,17 @@ const DetailsPage = () => {
           </div>
         </div>
 
-        <div className="container vh-100">
-          <div className="row">
-            <div className="col-md-3 show-image h-100">
+        <div
+          className="container p-3"
+          style={{ backgroundColor: "rgb(230, 253, 254)" }}
+        >
+          <div className="d-flex flex-column">
+            <div className="d-flex justify-content-center">
               <img
                 loading="lazy"
                 src={details.image?.original}
                 alt="All American"
-                className="h-100 w-100"
+                className="h-25 w-25 rounded"
               />
             </div>
             <div className="col-md-9">
@@ -179,6 +187,7 @@ const DetailsPage = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </>
     );
   }
